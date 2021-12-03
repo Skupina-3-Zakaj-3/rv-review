@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rv-review-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rv-review
+  template:
+    metadata:
+      labels:
+        app: rv-review
+    spec:
+      containers:
+        - image: anzeha/rv-review:latest
+          name: rv-review
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://surus.db.elephantsql.com/pswumkxj
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: pswumkxj
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD_RV_REVIEW
+          ports:
+            - containerPort: 8082
+              name: server
+              protocol: TCP
+         
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rv-review
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: rv-review
