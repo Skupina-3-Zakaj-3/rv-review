@@ -17,9 +17,9 @@ spec:
           name: rv-review
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgresql://surus.db.elephantsql.com/pswumkxj
+              value: jdbc:postgresql://surus.db.elephantsql.com/tethyexn
             - name: KUMULUZEE_DATASOURCES0_USERNAME
-              value: pswumkxj
+              value: tethyexn
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom:
                 secretKeyRef:
