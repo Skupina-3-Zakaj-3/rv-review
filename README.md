@@ -3,7 +3,7 @@
 ## Build the image
 
 ```bash
-docker build -t rv-catalog .
+docker build -t rv-review .
 ```
 
 ## Create network for all our microservices
