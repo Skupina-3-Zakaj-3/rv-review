@@ -36,4 +36,4 @@ jobs:
         with:
           file: ./Dockerfile_with_maven_build
           push: true
-          tags: anzeha/rv-review:${{ steps.time.outputs.time }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rv-review:$(git rev-parse --short "$GITHUB_SHA")

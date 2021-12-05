@@ -13,7 +13,7 @@ spec:
         app: rv-review
     spec:
       containers:
-        - image: anzeha/rv-review:latest
+        - image: anzeha/rv-review
           name: rv-review
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
