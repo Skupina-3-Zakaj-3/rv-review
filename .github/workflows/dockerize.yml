@@ -40,4 +40,17 @@ jobs:
         with:
           file: ./Dockerfile_with_maven_build
           push: true
-          tags: anzeha/rv-review:${{ steps.vars.outputs.sha_short }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/rv-review:${{ steps.vars.outputs.sha_short }}
+      - name: Setup AKS context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: rso-skupina3
+      - name: deploy to kubernetes
+        uses: Azure/k8s-deploy@v1.4
+        with:
+          manifests: |
+            k8s/rv-review-deployment.yaml
+          images: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/rv-review:${{ steps.vars.outputs.sha_short }}
