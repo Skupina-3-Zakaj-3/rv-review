@@ -38,4 +38,5 @@ public class RvResource {
 
         return Response.status(Response.Status.OK).entity(reviews).build();
     }
+
 }
