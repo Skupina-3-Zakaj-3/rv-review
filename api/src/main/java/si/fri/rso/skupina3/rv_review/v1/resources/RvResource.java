@@ -39,11 +39,4 @@ public class RvResource {
         return Response.status(Response.Status.OK).entity(reviews).build();
     }
 
-    @GET()
-    @Path("test")
-    public Response getTest() {
-
-
-        return Response.ok("test").build();
-    }
 }
