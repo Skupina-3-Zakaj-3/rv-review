@@ -12,10 +12,13 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5434/rv_reviews
       username: dbuser
       password: postgres
+      pool:
+        max-size: 1
   health:
     checks:
-      disk-space-health-check:
-        threshold: 100000000
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/RvDS
   metrics:
     web-instrumentation:
       - name: rvs-endpoint
