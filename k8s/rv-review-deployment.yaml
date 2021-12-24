@@ -25,6 +25,8 @@ spec:
                 secretKeyRef:
                   name: pg-pass
                   key: KUMULUZEE_DATASOURCES0_PASSWORD_RV_REVIEW
+            - name: KUMULUZEE_DATASOURCES0_POOL_MAX-SIZE
+              value: "1"
           ports:
             - containerPort: 8082
               name: server
@@ -40,7 +42,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 8080
+    - port: 8083
       protocol: TCP
       targetPort: server
   selector:
