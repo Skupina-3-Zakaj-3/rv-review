@@ -8,7 +8,7 @@ kumuluzee:
     http:
       port: 8082
   datasources:
-    - jndi-name: jdbc/RvDS
+    - jndi-name: jdbc/RvReviewDS
       connection-url: jdbc:postgresql://localhost:5434/rv_reviews
       username: dbuser
       password: postgres
@@ -18,7 +18,7 @@ kumuluzee:
     checks:
       data-source-health-check:
         type: liveness
-        jndi-name: jdbc/RvDS
+        jndi-name: jdbc/RvReviewDS
   metrics:
     web-instrumentation:
       - name: rvs-endpoint

@@ -8,6 +8,11 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -20,6 +25,9 @@ public class RvReviewBean {
     @Inject
     private EntityManager em;
 
+    @Inject
+    private RvReviewBean rvReviewBeanProxy;
+
     public List<RvReview> getRvReview() {
 
         TypedQuery<RvReviewEntity> query = em.createNamedQuery(
@@ -29,5 +37,100 @@ public class RvReviewBean {
 
         return resultList.stream().map(RvReviewConverter::toDto).collect(Collectors.toList());
 
+    }
+
+    public RvReview getRvReview(Integer rvReviewId) {
+
+        RvReviewEntity rvReviewEntity = em.find(RvReviewEntity.class, rvReviewId);
+
+        if (rvReviewEntity == null) {
+            throw new NotFoundException();
+        }
+
+        RvReview rvReview = RvReviewConverter.toDto(rvReviewEntity);
+
+        return rvReview;
+    }
+
+    public RvReview createRvReview(RvReview rvReview) {
+
+        RvReviewEntity rvReviewEntity = RvReviewConverter.toEntity(rvReview);
+
+        try {
+            beginTx();
+            em.persist(rvReviewEntity);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        if (rvReviewEntity.getRv_review_id() == null) {
+            throw new RuntimeException("Entity was not persisted");
+        }
+
+        return RvReviewConverter.toDto(rvReviewEntity);
+    }
+
+    public RvReview putRvReview(Integer rvReviewId, RvReview rvReview) {
+
+        RvReviewEntity c = em.find(RvReviewEntity.class, rvReviewId);
+
+        if (c == null) {
+            return null;
+        }
+
+        RvReviewEntity updatedRvReviewEntity = RvReviewConverter.toEntity(rvReview);
+
+        try {
+            beginTx();
+            updatedRvReviewEntity.setRv_review_id(c.getRv_review_id());
+            updatedRvReviewEntity = em.merge(updatedRvReviewEntity);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        return RvReviewConverter.toDto(updatedRvReviewEntity);
+    }
+
+    public boolean deleteRvReview(Integer rvReviewId) {
+
+        RvReviewEntity rvReview = em.find(RvReviewEntity.class, rvReviewId);
+
+        if (rvReview != null) {
+            try {
+                beginTx();
+                em.remove(rvReview);
+                commitTx();
+            }
+            catch (Exception e) {
+                rollbackTx();
+            }
+        }
+        else {
+            return false;
+        }
+
+        return true;
+    }
+
+    private void beginTx() {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
+    }
+
+    private void commitTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
     }
 }

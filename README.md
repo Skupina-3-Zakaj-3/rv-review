@@ -20,11 +20,11 @@ docker run -d --name pg-rv-review --network="rso" -e POSTGRES_USER=dbuser -e POS
 ## Run the container in network
 
 ```bash
-docker run -p 8082:8082 --name rv-review --network="rso" -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-rv-review:5432/rvs rv-review
+docker run -d -p 8082:8082 --name rv-review --network="rso" -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-rv-review:5432/rv_reviews rv-review
 ```
 
 ## Run the container from Docker hub in network
 
 ```bash
-docker run -p 8082:8082 --name rv-review --network="rso" anzeha/rv-review:latest
+docker run -d -p 8082:8082 --name rv-review --network="rso" anzeha/rv-review:latest
 ```
