@@ -37,7 +37,7 @@ public class RvReviewBean {
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = "http://rv-catalog:8081";
+        baseUrl = "http://rv-catalog:8082";
     }
 
     public List<RvReview> getRvReview() {
