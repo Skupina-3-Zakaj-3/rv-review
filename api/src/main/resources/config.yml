@@ -21,7 +21,7 @@ kumuluzee:
         jndi-name: jdbc/RvReviewDS
   metrics:
     web-instrumentation:
-      - name: rvs-endpoint
+      - name: rv-review-endpoint
         url-pattern: /v1/reviews/*
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>

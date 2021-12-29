@@ -4,14 +4,17 @@ import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.models.converters.RvReviewConverter;
 import si.fri.rso.skupina3.rv_review.models.entities.RvReviewEntity;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,6 +30,15 @@ public class RvReviewBean {
 
     @Inject
     private RvReviewBean rvReviewBeanProxy;
+
+    private Client httpClient;
+    private String baseUrl;
+
+    @PostConstruct
+    private void init() {
+        httpClient = ClientBuilder.newClient();
+        baseUrl = "http://rv-catalog:8081";
+    }
 
     public List<RvReview> getRvReview() {
 
@@ -67,6 +79,19 @@ public class RvReviewBean {
 
         if (rvReviewEntity.getRv_review_id() == null) {
             throw new RuntimeException("Entity was not persisted");
+        }
+        else {
+            try {
+                Response response = httpClient
+                                    .target(baseUrl + "/v1/rvs/" + rvReview.getRv_id() + "/rating")
+                                    .request().put(Entity.entity(Math.round(rvReview.getScore()), MediaType.TEXT_PLAIN));
+
+                log.info("RV score updated with status " + response.getStatus());
+            }
+            catch (WebApplicationException | ProcessingException e) {
+                log.severe(e.getMessage());
+                throw new InternalServerErrorException(e);
+            }
         }
 
         return RvReviewConverter.toDto(rvReviewEntity);
