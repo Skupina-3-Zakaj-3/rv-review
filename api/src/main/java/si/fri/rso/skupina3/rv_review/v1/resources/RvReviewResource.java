@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 @ApplicationScoped
 @Path("/reviews")
 @Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
+@Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
 @CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class RvReviewResource {
 
