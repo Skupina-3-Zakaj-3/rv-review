@@ -4,6 +4,7 @@ import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.services.beans.RvReviewBean;
 
 import javax.enterprise.context.ApplicationScoped;
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 @Path("/reviews")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class RvReviewResource {
 
     private Logger log = Logger.getLogger(RvReviewResource.class.getName());
