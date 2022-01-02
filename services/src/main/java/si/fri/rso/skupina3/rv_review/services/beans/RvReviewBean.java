@@ -35,7 +35,7 @@ public class RvReviewBean {
 
     private Client httpClient;
     private String baseUrl;
-    
+
     @Inject
     @DiscoverService("rv-catalog-service")
     private Optional<String> rvCatalogService;
