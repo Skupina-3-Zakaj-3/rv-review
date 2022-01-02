@@ -6,7 +6,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/v1")
-//@RegisterService(value="rv-review-service", environment="dev", version = "1.0.0")
 @RegisterService("rv-review-service")
 public class RvReviewApplication extends Application {
 }
