@@ -36,8 +36,9 @@ public class RvReviewBean {
     private Client httpClient;
     private String baseUrl;
     @Inject
-    @DiscoverService(value = "rv-park-catalog-service", environment = "dev", version = "1.0.0")
+    @DiscoverService("rv-park-catalog-service")
     private Optional<String> parkCatalogService;
+//    @DiscoverService(value = "rv-park-catalog-service", environment = "dev", version = "1.0.0")
 
     @PostConstruct
     private void init() {
