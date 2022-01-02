@@ -7,6 +7,12 @@ kumuluzee:
     base-url: http://localhost:8082
     http:
       port: 8082
+  config:
+    consul:
+      agent: http://consul:8500
+  discovery:
+    consul:
+      agent: http://consul:8500
   datasources:
     - jndi-name: jdbc/RvReviewDS
       connection-url: jdbc:postgresql://localhost:5434/rv_reviews
