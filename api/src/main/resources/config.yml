@@ -4,14 +4,13 @@ kumuluzee:
     name: dev
   version: 1.0.0
   server:
-#    base-url: http://localhost:8082
+    base-url: http://localhost:8082
     http:
       port: 8082
   config:
     consul:
       agent: http://consul-server:8500
   discovery:
-    cluster: 1
     consul:
       agent: http://consul-server:8500
   datasources:

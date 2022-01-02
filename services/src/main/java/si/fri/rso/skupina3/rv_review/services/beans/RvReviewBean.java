@@ -43,7 +43,8 @@ public class RvReviewBean {
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = "http://rv-catalog:8082";
+//        baseUrl = "http://rv-catalog:8082";
+        baseUrl = rvCatalogService.get();
         log.info("DISCOVERY URL: " + rvCatalogService.get());
     }
 
@@ -89,6 +90,7 @@ public class RvReviewBean {
         }
         else {
             try {
+                log.info("URL: " + baseUrl + "/v1/rvs/" + rvReview.getRv_id() + "/rating");
                 Response response = httpClient
                                     .target(baseUrl + "/v1/rvs/" + rvReview.getRv_id() + "/rating")
                                     .request().put(Entity.entity(Math.round(rvReview.getScore()), MediaType.TEXT_PLAIN));
