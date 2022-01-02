@@ -8,6 +8,7 @@ kumuluzee:
     http:
       port: 8082
   config:
+    cluster: 1
     consul:
       agent: http://consul-server:8500
   discovery:
