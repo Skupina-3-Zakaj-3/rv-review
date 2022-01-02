@@ -1,5 +1,6 @@
 package si.fri.rso.skupina3.rv_review.services.beans;
 
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.models.converters.RvReviewConverter;
 import si.fri.rso.skupina3.rv_review.models.entities.RvReviewEntity;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -33,11 +35,15 @@ public class RvReviewBean {
 
     private Client httpClient;
     private String baseUrl;
+    @Inject
+    @DiscoverService(value = "rv-park-catalog-service", environment = "dev", version = "1.0.0")
+    private Optional<String> parkCatalogService;
 
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
         baseUrl = "http://rv-catalog:8082";
+        log.info("DISCOVERY URL: " + parkCatalogService);
     }
 
     public List<RvReview> getRvReview() {
