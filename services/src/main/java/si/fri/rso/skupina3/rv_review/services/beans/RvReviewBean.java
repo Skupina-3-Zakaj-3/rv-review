@@ -35,7 +35,7 @@ public class RvReviewBean {
 
     private Client httpClient;
     private String baseUrl;
-
+    
     @Inject
     @DiscoverService("rv-catalog-service")
     private Optional<String> rvCatalogService;
@@ -43,7 +43,7 @@ public class RvReviewBean {
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = rvCatalogService.get();
+        baseUrl = "http://rv-catalog:8082";
         log.info("DISCOVERY URL: " + rvCatalogService.get());
     }
 
