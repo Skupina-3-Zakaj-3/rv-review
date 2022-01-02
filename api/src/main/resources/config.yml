@@ -1,5 +1,5 @@
 kumuluzee:
-  name: service
+  name: rv-review-service
   env:
     name: dev
   version: 1.0.0
@@ -8,7 +8,6 @@ kumuluzee:
     http:
       port: 8082
   config:
-    cluster: 1
     consul:
       agent: http://consul-server:8500
   discovery:
