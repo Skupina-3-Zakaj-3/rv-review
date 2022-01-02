@@ -99,6 +99,7 @@ public class RvReviewBean {
             }
             catch (WebApplicationException | ProcessingException e) {
                 log.severe(e.getMessage());
+                log.severe(e.toString());
                 throw new InternalServerErrorException(e);
             }
         }
