@@ -34,14 +34,14 @@ public class RvReviewResource {
     public Response getRvReview() {
 
         log.info("getRvReview() - GET");
-        List<RvReview> reviews = rvReviewBean.getRvReview();
+        List<RvReview> reviews = rvReviewBean.getRvReviewFilter(uriInfo);
 
         return Response.status(Response.Status.OK).entity(reviews).build();
     }
 
     @GET
     @Path("/{rvReviewId}")
-    public Response getImageMetadata(@PathParam("rvReviewId") Integer rvReviewId) {
+    public Response getRvReview(@PathParam("rvReviewId") Integer rvReviewId) {
 
         RvReview rvReview = rvReviewBean.getRvReview(rvReviewId);
 

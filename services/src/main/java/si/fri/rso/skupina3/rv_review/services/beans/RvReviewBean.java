@@ -1,6 +1,8 @@
 package si.fri.rso.skupina3.rv_review.services.beans;
 
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.models.converters.RvReviewConverter;
 import si.fri.rso.skupina3.rv_review.models.entities.RvReviewEntity;
@@ -17,6 +19,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -57,6 +60,15 @@ public class RvReviewBean {
 
         return resultList.stream().map(RvReviewConverter::toDto).collect(Collectors.toList());
 
+    }
+
+    public List<RvReview> getRvReviewFilter(UriInfo uriInfo) {
+
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
+                .build();
+
+        return JPAUtils.queryEntities(em, RvReviewEntity.class, queryParameters).stream()
+                .map(RvReviewConverter::toDto).collect(Collectors.toList());
     }
 
     public RvReview getRvReview(Integer rvReviewId) {
