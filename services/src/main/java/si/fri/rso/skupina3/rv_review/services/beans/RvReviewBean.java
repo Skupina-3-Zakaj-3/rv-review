@@ -43,8 +43,8 @@ public class RvReviewBean {
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-//        baseUrl = "http://rv-catalog:8082";
-        baseUrl = rvCatalogService.get();
+        baseUrl = "http://rv-catalog:8082";
+//        baseUrl = rvCatalogService.get();
         log.info("DISCOVERY URL: " + rvCatalogService.get());
     }
 
