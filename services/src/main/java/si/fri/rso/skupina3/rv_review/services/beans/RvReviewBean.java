@@ -9,6 +9,7 @@ import org.eclipse.microprofile.faulttolerance.Timeout;
 import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.models.converters.RvReviewConverter;
 import si.fri.rso.skupina3.rv_review.models.entities.RvReviewEntity;
+import si.fri.rso.skupina3.rv_review.services.config.RestProperties;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -40,6 +41,9 @@ public class RvReviewBean {
 
     @Inject
     private RvReviewBean rvReviewBeanProxy;
+
+    @Inject
+    private RestProperties restProperties;
 
     private Client httpClient;
     private String baseUrl;
@@ -90,8 +94,13 @@ public class RvReviewBean {
     public String getUserName(Integer userId) {
         try {
             log.info("getUserName");
+            String urlString = userBaseUrl+userId;
+            if(restProperties.getFallback()) {
+                urlString += "/Fallback";
+                log.info("FALLBACK " + urlString);
+            }
             return httpClient
-                    .target(userBaseUrl+userId)
+                    .target(urlString)
                     .request()
                     .get(String.class);
         }

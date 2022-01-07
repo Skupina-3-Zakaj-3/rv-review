@@ -76,6 +76,7 @@ kumuluzee:
 rest-properties:
   maintenance-mode: false
   broken: false
+  fallback: false
 app-properties:
   amazon-rekognition:
     access-key:
