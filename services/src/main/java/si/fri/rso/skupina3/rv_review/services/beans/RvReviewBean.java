@@ -48,7 +48,7 @@ public class RvReviewBean {
         httpClient = ClientBuilder.newClient();
         baseUrl = "http://rv-catalog:8082";
 //        baseUrl = rvCatalogService.get();
-        log.info("DISCOVERY URL: " + rvCatalogService.get());
+//        log.info("DISCOVERY URL: " + rvCatalogService.get());
     }
 
     public List<RvReview> getRvReview() {
@@ -106,7 +106,7 @@ public class RvReviewBean {
                 Response response = httpClient
                                     .target(baseUrl + "/v1/rvs/" + rvReview.getRv_id() + "/rating")
                                     .request().put(Entity.entity(Math.round(rvReview.getScore()), MediaType.TEXT_PLAIN));
-
+                response.getEntity();
                 log.info("RV score updated with status " + response.getStatus());
             }
             catch (WebApplicationException | ProcessingException e) {
