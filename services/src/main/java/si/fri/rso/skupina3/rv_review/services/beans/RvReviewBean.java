@@ -3,6 +3,9 @@ package si.fri.rso.skupina3.rv_review.services.beans;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.models.converters.RvReviewConverter;
 import si.fri.rso.skupina3.rv_review.models.entities.RvReviewEntity;
@@ -20,6 +23,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -38,6 +43,7 @@ public class RvReviewBean {
 
     private Client httpClient;
     private String baseUrl;
+    private String userBaseUrl;
 
     @Inject
     @DiscoverService("rv-catalog-service")
@@ -47,8 +53,7 @@ public class RvReviewBean {
     private void init() {
         httpClient = ClientBuilder.newClient();
         baseUrl = "http://rv-catalog:8082";
-//        baseUrl = rvCatalogService.get();
-//        log.info("DISCOVERY URL: " + rvCatalogService.get());
+        userBaseUrl = "http://user:8081/v1/users/";
     }
 
     public List<RvReview> getRvReview() {
@@ -67,8 +72,38 @@ public class RvReviewBean {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
                 .build();
 
-        return JPAUtils.queryEntities(em, RvReviewEntity.class, queryParameters).stream()
+        List<RvReview> reviews = JPAUtils.queryEntities(em, RvReviewEntity.class, queryParameters).stream()
                 .map(RvReviewConverter::toDto).collect(Collectors.toList());
+
+        List<RvReview> result = new ArrayList<>();
+        for(RvReview review : reviews) {
+            review.setUserName(rvReviewBeanProxy.getUserName(review.getUser_id()));
+            result.add(review);
+        }
+
+        return result;
+    }
+
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+    @CircuitBreaker(requestVolumeThreshold = 3)
+    @Fallback(fallbackMethod = "getUserNameFallback")
+    public String getUserName(Integer userId) {
+        try {
+            log.info("getUserName");
+            return httpClient
+                    .target(userBaseUrl+userId)
+                    .request()
+                    .get(String.class);
+        }
+        catch (WebApplicationException | ProcessingException e) {
+            log.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    public String getUserNameFallback(Integer userId) {
+        log.info("FALLBACK");
+        return "";
     }
 
     public RvReview getRvReview(Integer rvReviewId) {

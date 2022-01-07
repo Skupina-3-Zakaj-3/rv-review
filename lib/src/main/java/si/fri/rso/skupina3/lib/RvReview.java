@@ -8,8 +8,17 @@ public class RvReview {
     private String comment;
     private Float score;
     private Integer user_id;
+    private String userName;
     private Integer rv_id;
     private Date review_date;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getRv_review_id() {
         return rv_review_id;
