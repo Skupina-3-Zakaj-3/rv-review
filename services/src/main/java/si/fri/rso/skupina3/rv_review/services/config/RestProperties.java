@@ -13,7 +13,18 @@ public class RestProperties {
     private Boolean maintenanceMode;
 
     @ConfigValue(watch = true)
+    private Boolean broken;
+
+    @ConfigValue(watch = true)
     private Boolean fallback;
+
+    public Boolean getBroken() {
+        return broken;
+    }
+
+    public void setBroken(Boolean broken) {
+        this.broken = broken;
+    }
 
     public Boolean getMaintenanceMode() {
         return this.maintenanceMode;
