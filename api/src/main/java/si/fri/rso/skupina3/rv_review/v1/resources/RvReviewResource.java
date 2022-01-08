@@ -1,5 +1,6 @@
 package si.fri.rso.skupina3.rv_review.v1.resources;
 
+import com.kumuluz.ee.logs.cdi.Log;
 import si.fri.rso.skupina3.lib.RvReview;
 import si.fri.rso.skupina3.rv_review.services.beans.RvReviewBean;
 
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+@Log
 @ApplicationScoped
 @Path("/reviews")
 @Produces(MediaType.APPLICATION_JSON)
