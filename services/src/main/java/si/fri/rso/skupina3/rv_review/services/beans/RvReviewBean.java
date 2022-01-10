@@ -89,7 +89,7 @@ public class RvReviewBean {
     }
 
     @Timeout(value = 2, unit = ChronoUnit.SECONDS)
-    @CircuitBreaker(requestVolumeThreshold = 3, delay=20000L)
+    @CircuitBreaker(requestVolumeThreshold = 3, delay=200000L)
     @Fallback(fallbackMethod = "getUserNameFallback")
     public String getUserName(Integer userId) {
         try {
