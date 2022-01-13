@@ -49,9 +49,9 @@ public class RvReviewBean {
     private String baseUrl;
     private String userBaseUrl;
 
-    @Inject
-    @DiscoverService("rv-catalog-service")
-    private Optional<String> rvCatalogService;
+//    @Inject
+//    @DiscoverService("rv-catalog-service")
+//    private Optional<String> rvCatalogService;
 
     @PostConstruct
     private void init() {
