@@ -11,6 +11,7 @@ kumuluzee:
     consul:
       agent: http://consul-server:8500
   discovery:
+    cluster: 1
     consul:
       agent: http://consul-server:8500
   datasources:
