@@ -58,6 +58,7 @@ public class RvReviewBean {
         httpClient = ClientBuilder.newClient();
         baseUrl = "http://rv-catalog:8082";
         userBaseUrl = "http://user:8081/v1/users/";
+        log.info("URL: "+rvCatalogService);
     }
 
     public List<RvReview> getRvReview() {
